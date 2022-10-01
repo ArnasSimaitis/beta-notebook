@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="login">
+        <h1>Prisijungimas</h1>
+        <form>
+            <div>
+            Prisijungimo vardas:</br>
+            <input id="login-username"></br>
+            Slaptažodis:</br>
+            <input id="login-password" type="password">
+            </div>
+        </form>
+        <div class="login-btn" onclick="login()">Prisijungti</div>
+    </div>
+    <div class="login reg">
+        <h1>Registracija</h1>
+        <form>
+            <div>
+                Elektroninis paštas:</br>
+                <input type="email" id="reg-email"></br>
+                Prisijungimo vardas:</br>
+                <input id="reg-username">
+            </div>
+            <div>
+                Slaptažodis:</br>
+                <input type="password" id="reg-pass"></br>
+                Pakartokite slaptažodį:</br>
+                <input type="password" id="reg-pass-confirm">
+            </div>
+        </form>
+        <div class="login-btn" onclick="register()">Registruotis</div>
+    </div>
+    <div class="login">
+        <h1>Svečio režimas</h1>
+        <p>Jei norite tęsti kaip svečias - sutinkate, kad būtų naudojami sausainiukai <i>(angl. cookies)</i>. Visa informacija bus saugoma Jūsų kompiuteryje.</br><i>Ištrynus naršyklės istoriją Jūsų atlikti pakeitimai ar sukurti įrašai gali dingti.</i></p>
+        <div class="login-btn" onclick="sendData('login', {'username':'guest','password':'guest'})">Sutinku, tęsti</div>
+    </div>
+    <script src="{{ url_for('static', filename='login.js')}}"></script> 
+{% endblock %}

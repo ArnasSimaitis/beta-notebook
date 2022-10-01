@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>BETA</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+</head>
+<body>
+    <div id="header">
+        <div id="appname"><h1>BETA</h1><p>Jūsų užrašai</p></div>
+        <div id="middle">
+            {% if user.is_authenticated %}
+            Sėkmingo naudojimo,</br>
+            {{ user.username }}
+            {% else %}
+            Sveiki atvykę!</br>
+            Prisijunkite, kad galėtumėte tęsti
+            {% endif %}
+        </div>
+        <div id="navbar">
+            {% if user.is_authenticated == False %}
+            <div class="nav-list"><a href="#">Prisijungti</a></div>
+            <div class="nav-list"><a href="#">Registruotis</a></div>
+            {% else %}
+            <div class="nav-list"><a href="/logout">Atsijungti</a></div>
+            {% endif %}
+        </div>
+    </div>
+    <div id="main">
+        <div id="admin-nav">
+            <h3>Valdymo panelė</h3>
+            <ul style="overflow:auto;margin-bottom:auto">
+                {% if user.is_authenticated %}
+                <a href="#"><li>Kategorija 1</li></a>
+                <a href="#"><li>Kategorija 2</li></a>
+                {% else %}
+                <a href="#"><li>Čia matysite savo užrašus</li></a>
+                {% endif %}
+            </ul>
+            <div id="admin-options">
+                {% if user.is_authenticated %}
+                <a href="#"><div class="option">Kurti kategoriją</div></a>
+                <a href="#"><div class="option">Kurti testą</div></a>
+                {% endif %}
+            </div>
+        </div>
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>

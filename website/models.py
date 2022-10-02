@@ -23,6 +23,7 @@ class Notes(db.Model):
     category = db.Column(db.Integer, db.ForeignKey('category.id'))
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
     pictures = db.relationship('Pictures')
+    is_temp = db.Column(db.Integer)
 
 class Pictures(db.Model):
     id = db.Column(db.Integer, primary_key=True)

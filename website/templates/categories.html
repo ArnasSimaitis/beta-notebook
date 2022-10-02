@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+    <script>
+    </script>
+    <h1>{{ category.name.upper() }}</h1>
+    <div class="cat-wrapper">
+        <div class="categories">
+            <h1>Pridėti užrašą</h1>
+            <div class="notes-pictures">
+                <div>+</div>
+                <div>+</div>
+                <div>+</div>
+                <div>+</div>
+            </div>
+            <p>
+                Pavadinimas:</br>
+                <input></br>
+                Užrašas:</br>
+                <textarea rows="10" cols="30"></textarea></br>
+                <button>Pridėti</button>
+            </p>
+        </div>
+    {% for x in category.notes %}
+        <div class="categories">
+            <h1>{{x.name}}</h1>
+            <div class="notes-pictures">
+                {% if x.pictures %}
+                    {% for y in x.pictures %}
+                        <div><img style="height:100%;width:100%" src="{{ url_for('views.get_image', filename=y.name) }}"></div>
+                    {% endfor %}
+                {% if x.pictures |length < 4 %}
+                    {% for x in range(0,4-x.pictures |length) %}
+                    <div>+</div>
+                    {% endfor %}
+                {% else %}
+                    <div>+</div>
+                {% endif %}
+                {% else %}
+                <div>+</div>
+                <div>+</div>
+                <div>+</div>
+                <div>+</div>
+                {% endif %}
+            </div>
+            <p>{{x.note}}</p>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

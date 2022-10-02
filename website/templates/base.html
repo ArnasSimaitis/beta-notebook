@@ -36,12 +36,12 @@
     </div>
     <div id="main">
         <div id="admin-nav">
-            <h3>Valdymo panelė</h3>
+            <h3>Užrašų kategorijos</h3>
             <ul style="overflow:auto;margin-bottom:auto">
                 {% if user.is_authenticated %}
-                    {% if user.category %}
-                        {% for x in user.category %}
-                            <a href="#"><li>{{ x.name }}</li></a>
+                    {% if user.categories %}
+                        {% for x in user.categories %}
+                            <a href="/categories?cat={{ x.id }}"><li>{{ x.name }}</li></a>
                         {% endfor %}
                     {% else %}
                         <a href="/category"><li>Sukurkite savo pirmą kategoriją</li></a>
@@ -52,8 +52,8 @@
             </ul>
             <div id="admin-options">
                 {% if user.is_authenticated %}
-                <a href="/category"><div class="option">Kurti kategoriją</div></a>
-                <a href="#"><div class="option">Kurti testą</div></a>
+                <a href="/category"><div class="option">Kurti kategoriją/užrašą</div></a>
+                <a href="#"><div class="option">Peržiūrėti užrašus</div></a>
                 {% endif %}
             </div>
         </div>

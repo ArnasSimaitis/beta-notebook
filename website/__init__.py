@@ -48,9 +48,9 @@ def create_guest():
     )
     my_cursor = mydb.cursor()
     
-    my_cursor.execute(f"INSERT IGNORE INTO `user` (`id`, `email`, `username`, `password`) VALUES (0,'guest','guest','guest')")
+    my_cursor.execute(f"INSERT IGNORE INTO `user` (`id`, `email`, `username`, `password`) VALUES (1,'guest','guest','guest')")
     mydb.commit()
-    my_cursor.execute(f"INSERT IGNORE INTO `category`(`id`, `name`, `user`) VALUES (0,'Empty',1)")
+    my_cursor.execute(f"INSERT IGNORE INTO `category`(`id`, `name`, `user`) VALUES (1,'Empty',1)")
     mydb.commit()
 
     my_cursor.close()

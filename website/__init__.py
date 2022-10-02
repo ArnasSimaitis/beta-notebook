@@ -11,6 +11,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'Ray Charles'
     app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_user}:@{db_host}/{db_name}"
+    
     db.init_app(app)
 
     from .views import views
@@ -46,7 +47,10 @@ def create_guest():
         database=db_name
     )
     my_cursor = mydb.cursor()
+    
     my_cursor.execute(f"INSERT IGNORE INTO `user` (`id`, `email`, `username`, `password`) VALUES (0,'guest','guest','guest')")
+    mydb.commit()
+    my_cursor.execute(f"INSERT IGNORE INTO `category`(`id`, `name`, `user`) VALUES (0,'Empty',1)")
     mydb.commit()
 
     my_cursor.close()

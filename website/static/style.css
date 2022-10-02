@@ -14,14 +14,25 @@ a{
     color:black;
 }
 
-input{
+input, textarea{
     border:solid 0.1rem rgba(0, 64, 255, 0.5);
 }
 
-input:focus{
+input:focus, textarea:focus{
     border:solid 1px blue;
     box-shadow: rgba(0, 64, 255, 0.5) 0px 0px 2px;
     outline:none;
+}
+
+input[type='file']{
+    display:none;
+}
+
+label{
+    border:solid 0.1rem rgba(0, 64, 255, 0.5);
+    font-size:0.8rem;
+    transition: 0.5s;
+    padding:0.1rem;
 }
 
 #header{
@@ -178,6 +189,7 @@ input:focus{
 
     .reg:hover > form{
         width:30rem;
+        align-items:center;
     }
 
     .reg > form > div{
@@ -291,4 +303,30 @@ input:focus{
 
 .option:hover{
     background:rgba(14, 5, 5, 0.116);
+}
+
+/* Kategorijų/užrašų kūrimas */
+.small-list-wrapper{
+    box-shadow: rgba(0, 64, 255, 0.5) 0px 0px 2px;
+    width:100px;
+    display:flex;
+    flex-direction:column;
+    text-align:left;
+    font-size:0.8rem;
+}
+
+.small-list-item{
+    max-height:calc(100% / 6);
+    border-bottom:solid rgba(0, 64, 255, 0.2) 0.1rem;
+}
+
+.small-list-item:hover{
+    background:rgba(0, 64, 255, 0.2);
+}
+
+#create-note{
+    resize:none;
+    width:30ch;
+    height:13ex;
+    overflow-y:auto;
 }

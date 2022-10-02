@@ -1,8 +1,6 @@
 import mysql.connector
 from db_settings import *
 
-print("Kuriam db")
-
 mydb = mysql.connector.connect(
     host=db_host,
     user=db_user,

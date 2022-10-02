@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+{% if user.notes %}
+<div class="login reg">
+{% else %}
+<div class="login">
+{% endif %}
+    <h1>Kurti kategoriją</h1>
+    <form>
+        <div id="cat-create-info">
+            Pavadinimas:</br>
+            <input></br>
+            Įtraukti užrašus:</br>
+            <input>
+                <datalist>
+                    {% for x in user.notes %}
+                        <option value="{{ x.name }}">
+                    {% endfor %}
+                </datalist>
+            </input></br>
+        </div>
+        {% if user.notes %}
+        <div>
+            Įtraukti užrašai:</br>
+            <div class="small-list-wrapper">
+                <div class="small-list-item">Labas</div>
+                <div class="small-list-item">Ate</div>
+            </div>
+        </div>
+        <script>
+            document.getElementsByClassName('login reg')[0].addEventListener('mouseover',firstCalc)
+            function firstCalc(){
+                document.getElementsByClassName('small-list-wrapper')[0].style.height = `${document.getElementById('cat-create-info').offsetHeight}px`
+                document.getElementsByClassName('small-list-wrapper')[0].style.width = `${document.getElementById('cat-create-info').offsetWidth}px`
+                console.log(document.getElementById('cat-create-info').offsetHeight)
+                console.log(document.getElementsByClassName('small-list-wrapper')[0].style.height)
+                document.getElementsByClassName('login reg')[0].removeEventListener('mouseover', firstCalc)
+            }
+        </script>
+        {% endif %}
+    </form>
+    <div class="login-btn" onclick="">Sukurti</div>
+</div>
+<div class="login reg">
+    <h1>Kurti užrašą</h1>
+    <form>
+        <div>
+            Pavadinimas:</br>
+            <input id="note-name"></br></br>
+            Pridėti paveiksliuką <i id="imgCount">(0)</i>:
+            <label for="cat-picture">Pridėti</label>
+            <input type="file" accept="image/png, image/jpeg" style="border:none" id="cat-picture" multiple>
+        </div>
+        <div>
+            Tekstas:</br>
+            <textarea id="create-note"></textarea>
+        </div>
+    </form>
+    <div class="login-btn" onclick="createNote()">Sukurti</div>
+</div>
+<script src="{{ url_for('static', filename='category.js')}}"></script> 
+{% endblock %}

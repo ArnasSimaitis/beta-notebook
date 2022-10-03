@@ -102,12 +102,23 @@ function sendData(reqType, data, newNote = ''){
         formData.append('note',data.note)
         xml.send(formData)
     }
+    else if(reqType == 'deleteCategory'){
+        formData.append('request', reqType)
+        formData.append('category', data.category)
+        xml.send(formData)
+    }
+    else if(reqType == 'updateCategory'){
+        formData.append('request', reqType)
+        formData.append('category', data.category)
+        formData.append('name', data.name)
+        xml.send(formData)
+    }
 
     xml.onload = function(){
         response = JSON.parse(this.responseText)
         if (response['response'] != 1) return alert(response['response'])
         else if(reqType == 'uploadPicture' || reqType == 'changeCategory') return
-        else if(reqType == 'deleteNote') return window.location.replace('/')
+        else if(reqType == 'deleteNote' || reqType == 'deleteCategory') return window.location.replace('/')
         else {
             if(reqType=='createCategory' && newNote != ''){
                 document.getElementsByClassName('login')[1].style.border = '0.3rem solid green'

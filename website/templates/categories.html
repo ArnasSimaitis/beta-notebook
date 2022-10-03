@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
     {% if category %}
-    <h1>{{ category.name.upper() }}</h1>
+    <div class="settings">
+        <div onclick="updateCategory(this, parseInt('{{category.id}}'))" style="border-right:1px solid rgba(0, 0, 0, 0.329)">Redaguoti</div>
+        <div id="deleteCategory" onclick="deleteCategory(parseInt('{{category.id}}'))">Ištrinti</div>
+    </div>
+    <h1 class="cat-header">{{ category.name.upper() }}</h1>
+    
     <div class="cat-wrapper" onlick="console.log(1+1)">
         <div class="categories">
             <h1>Pridėti užrašą</h1>
@@ -55,14 +60,13 @@
         </div>
     {% endfor %}
     <script>
-        console.log('hello')
         function openDialog(dialog){
             document.getElementsByClassName('picture')[parseInt(dialog)-1].showModal()
         }
     </script>
     </div>
     {% else %}
-    <h1>Sukurkite naują kategoriją</h1>
+    <h1>Sukurkite naują užrašą</h1>
     <div class="cat-wrapper">
         <div class="categories">
             <h1>Pridėti užrašą</h1>
@@ -84,4 +88,5 @@
     <script src="{{ url_for('static', filename='category.js')}}"></script> 
     {% endif %}
     <script src="{{ url_for('static', filename='pictureHandler.js') }}"></script>
+    <script src="{{ url_for('static', filename='categoryHandler.js') }}"></script>
 {% endblock %}

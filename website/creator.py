@@ -5,7 +5,7 @@ from .models import Notes, Category
 from . import db
 from .functions import upload_img
 
-creator = Blueprint('handler', __name__)
+creator = Blueprint('creator', __name__)
 
 @creator.route('/category', methods=['GET','POST'])
 @login_required
@@ -118,6 +118,31 @@ def category():
             else:
                 return jsonify({'response':'Užrašas nerastas'})
             return jsonify({'response':1})
+
+        if req == 'deleteCategory':
+            category = Category.query.filter_by(id=int(request.values['category'])).first()
+            
+            if category:
+                for x in category.notes:
+                    x.category = 1
+                    db.session.commit()
+                
+                db.session.delete(category)
+                db.session.commit()
+            else:
+                return jsonify({'response':'Kategorija nerasta.'})
+
+            return jsonify({'response':1})
+
+        if req == 'updateCategory':
+            category = Category.query.filter_by(id=int(request.values['category'])).first()
+
+            if category:
+                category.name = request.values['name']
+                db.session.commit()
+                return jsonify({'response':1})
+            else:
+                return jsonify({'response':'Kategorija nerasta.'})
 
 
     return render_template("create_category.html", user=current_user)

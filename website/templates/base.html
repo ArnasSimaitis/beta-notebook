@@ -56,6 +56,42 @@
                 <a href="#"><li>Čia matysite savo užrašus</li></a>
                 {% endif %}
             </ul>
+            {% if user.username != 'guest' and user.is_authenticated and user.notes %}
+            <div id="search">
+                <h3>Paieška</h3>
+                <div class="search-item">
+                    <input placeholder="Kategorijos/užrašo pavadinimas" oninput="search(this)" onclick="search(this)">
+                    <div class="search-list">
+                        {% for x in user.categories %}
+                            <div onclick="window.location.replace('/categories?cat={{x.id}}')" class="search-list-item" style="display:none"><b>K:</b> {{ x.name }}</div>
+                        {% endfor %}
+                        {% for x in user.notes %}
+                            <div onclick="window.location.replace('/note?note={{x.id}}')" class="search-list-item" style="display:none"><b>U:</b> {{ x.name }}</div>
+                        {% endfor %}
+                    </div>
+                    <script>
+                        function search(element){
+                            let searchList = document.getElementsByClassName('search-list')[0]
+                            let searchItems = document.getElementsByClassName('search-list-item')
+                            if(element.value != '') searchList.style.display = 'flex'
+                            else return searchList.style.display = 'none'
+                            for(let x=0;x<searchItems.length;x++){
+                                if(searchItems[x].innerText.toLowerCase().indexOf(element.value.toLowerCase()) != -1){
+                                    searchItems[x].style.display = 'block'
+                                }
+                                else{
+                                    searchItems[x].style.display = 'none'
+                                }
+                            }
+                        }
+                        document.getElementsByTagName('body')[0].addEventListener("click", function(){
+                            let searchList = document.getElementsByClassName('search-list')[0]
+                            if(window.event.target != searchList) return searchList.style.display = 'none'
+                        })
+                    </script>
+                </div>
+            </div>
+            {% endif %}
             <div id="admin-options">
                 {% if user.is_authenticated and user.username != 'guest' %}
                 <a href="/category"><div class="option">Kurti kategoriją/užrašą</div></a>

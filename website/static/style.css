@@ -256,7 +256,7 @@ label{
     margin-right:5px;
 }
 
-#admin-nav > h3{
+#admin-nav h3{
     text-align:center;
     width:100%;
     background:rgba(14, 5, 5, 0.034);
@@ -307,6 +307,53 @@ label{
 .option:hover{
     background:rgba(14, 5, 5, 0.116);
 }
+
+    /* PAIEŠKA */
+    .search-item{
+        display:flex;
+        justify-content:center;
+        height:min-content;
+        max-height:7vh;
+        flex-direction:column;
+        position:relative;
+    }
+    .search-item > input{
+        background:inherit;
+        width:100%;
+        height:5vh;
+        border-left:none;
+        border-right:none;
+        border-color:rgba(153, 151, 151, 0.575);
+        padding:0;
+    }
+    .search-list{
+        display:none;
+        position:absolute;
+        z-index:1;
+        margin-top:auto;
+        max-height:15vh;
+        width:100%;
+        top:5vh;
+        background:rgba(0, 64, 255, 0.6);
+        box-shadow: rgba(0,0,0,0.5) 0px 0px 2px;
+        overflow-x:auto;
+
+        flex-direction:column;
+
+        border-radius:5px;
+    }
+    .search-list-item{
+        padding-left:0.3vw;
+        padding-right:0.3vw;
+        padding-top:0.5vh;
+        padding-bottom:0.5vh;
+        transition:0.1s;
+        user-select:none;
+    }
+    .search-list-item:hover{
+        background:rgba(0, 64, 255, 1);
+        box-shadow: rgba(0,0,0,0.9) 0px 0px 5px;
+    }
 
 /* Kategorijų/užrašų kūrimas */
 .small-list-wrapper{
@@ -416,6 +463,14 @@ div > #create-note{
     width:inherit;
 }
 
+.cat-header{
+    margin:0;
+    padding:0;
+    width:100%;
+    background:rgba(0, 64, 255, 0.2);
+    border-top:1px solid rgba(0, 0, 0, 0.329)
+}
+
     /* nuotraukos peržiūra */
     dialog.picture{
         padding:0;
@@ -510,6 +565,7 @@ div > #create-note{
     margin-top:auto;
     justify-self:flex-end;
     display:flex;
+    min-width:100%;
 }
 
 .settings > div{

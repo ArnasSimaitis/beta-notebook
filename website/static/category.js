@@ -1,9 +1,6 @@
-document.getElementById('cat-picture').addEventListener('change', function(){
-    document.getElementById('imgCount').innerText = document.getElementById('cat-picture').files.length
-    //alert(document.getElementById('cat-picture').files[0].size)
-})
+var addedPictures = []
 
-function createNote(){
+function createNote(category = 1){
     if(document.getElementById('note-name').value == '' || document.getElementById('create-note').value == ''){
         if(document.getElementById('note-name').value == '') document.getElementById('note-name').style.borderColor = 'red'
         else document.getElementById('note-name').style.borderColor = 'blue'
@@ -11,7 +8,12 @@ function createNote(){
         else document.getElementById('create-note').style.borderColor = 'blue'
         return
     }
-    sendData('createNote',{'img':document.getElementById('cat-picture').files,'name':document.getElementById('note-name').value,'note':document.getElementById('create-note').value})
+    if(addedPictures.length < 1 && document.getElementById('cat-picture').files.length > 0){
+        for(let x=0;x<document.getElementById('cat-picture').files.length;x++){
+            addedPictures.push(document.getElementById('cat-picture').files[x])
+        }
+    }
+    sendData('createNote',{'img':addedPictures,'name':document.getElementById('note-name').value,'note':document.getElementById('create-note').value,'category':parseInt(category)})
 }
 
 function createCategory(noNotes){
@@ -59,6 +61,9 @@ function sendData(reqType, data, newNote = ''){
         formData.append('note', data.note)
         formData.append('name', data.name)
         formData.append('request', reqType)
+        if(data.category > 1){
+            formData.append('category', data.category)
+        }
         xml.send(formData)
     }
     else if(reqType == 'createCategory'){
@@ -76,11 +81,18 @@ function sendData(reqType, data, newNote = ''){
         }
         xml.send(formData)
     }
+    else if(reqType == 'uploadPicture'){
+        formData.append('request',reqType)
+        formData.append('img',data.img)
+        formData.append('note',data.note)
+        xml.send(formData)
+    }
 
     xml.onload = function(){
         response = JSON.parse(this.responseText)
         console.log(response)
         if (response['response'] != 1) return alert(response['response'])
+        else if(reqType == 'uploadPicture') return
         else {
             if(reqType=='createCategory' && newNote != ''){
                 document.getElementsByClassName('login')[1].style.border = '0.3rem solid green'
@@ -89,7 +101,7 @@ function sendData(reqType, data, newNote = ''){
                 alert('Dabar galite sukurti užrašą, kuris pateks į Jūsų paskutinę sukurtą kategoriją. Jeigu norite, kad įrašas patektų į kitą kategoriją - perkraukite puslapį.')
                 document.getElementsByClassName('login')[0].style.display = 'none'
             }
-            else return location.replace('/category')
+            else return location.reload()
         }
     }
 }

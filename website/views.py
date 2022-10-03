@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from .models import User, Pictures, Notes, Category
 from . import db
 import os
-from .functions import is_picture, generate_img_name, generate_img_key
+from .functions import upload_img
 
 
 views = Blueprint('views', __name__)
@@ -43,6 +43,9 @@ def category():
                     db.session.delete(x)
                     db.session.commit()
 
+            if 'category' in request.values:
+                category = request.values['category']
+
             new_note = Notes(name = name, note = note, category=category, user=current_user.id, is_temp = 0)
             db.session.add(new_note)
             db.session.commit()
@@ -50,31 +53,7 @@ def category():
             if 'img' in request.files:
                 uploaded_files = request.files.getlist("img")
                 for file in uploaded_files:
-                    filename = file.filename
-                    if is_picture(filename) == 0:
-                        return jsonify({'response':'Tinka tik .png, .jpg, .jpeg formato nuotraukos. Jas galėsite pridėti vėliau.'})
-                    
-                    # Sukuriam unikalų pavadinimą
-                    user = User.query.filter_by(id=current_user.id).first()
-                    for x in user.notes:
-                        print(x)
-                    key = generate_img_key()
-                    new_filename = generate_img_name(filename, user, key)
-
-                    # Išsaugom nuotrauką
-                    path = os.path.join('/img', new_filename)
-                    app = Flask(__name__)
-                    full_path = f"{app.root_path}/{path}"
-                    file.save(full_path)
-
-                    # Tikrinam nuotraukos dydį
-                    if os.stat(full_path).st_size > 10000000*10:
-                        os.remove(full_path)
-                        return jsonify({'response':'Nuotraukos negali būti didesnės nei 10MB. Jas galėsite pridėti vėliau.'})
-
-                    new_picture = Pictures(key = key, name = new_filename, note = new_note.id)
-                    db.session.add(new_picture)
-                    db.session.commit()
+                    upload_img(file, new_note.id)
             
             return jsonify({'response':1})
 
@@ -105,15 +84,28 @@ def category():
 
             return jsonify({"response":1})
 
+        if req == 'uploadPicture':
+            if 'img' in request.files:
+                img = request.files['img']
+                note = request.values['note']
+                upload_img(img, note)
+                return jsonify({'response':1})
+            return jsonify({'response':'Nerastas failas.'})
+
     return render_template("create_category.html", user=current_user)
 
 @views.route('/categories', methods=['GET', 'POST'])
 @login_required
 def categories():
     if request.method == 'GET':
-        category = Category.query.filter_by(id = request.values['cat']).first()
-    
-    return render_template("categories.html", user = current_user, category = category)
+        if 'cat' in request.values:
+            category = Category.query.filter_by(id = request.values['cat']).first()
+            if category.user == current_user.id:
+                return render_template("categories.html", user = current_user, category = category)
+            else:
+                return redirect(url_for('views.category'))
+        else:
+            return redirect(url_for('views.category'))
 
 @views.route('/images/<path:filename>')
 @login_required

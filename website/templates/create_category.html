@@ -120,4 +120,10 @@
     <div class="login-btn" onclick="createNote()">Sukurti</div>
 </div>
 <script src="{{ url_for('static', filename='category.js')}}"></script> 
+<script>
+document.getElementById('cat-picture').addEventListener('change', function(){
+    document.getElementById('imgCount').innerText = document.getElementById('cat-picture').files.length
+    //alert(document.getElementById('cat-picture').files[0].size)
+})
+</script>
 {% endblock %}

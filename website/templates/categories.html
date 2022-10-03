@@ -1,32 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
-    <script>
-    </script>
+    {% if category %}
     <h1>{{ category.name.upper() }}</h1>
-    <div class="cat-wrapper">
+    <div class="cat-wrapper" onlick="console.log(1+1)">
         <div class="categories">
             <h1>Pridėti užrašą</h1>
-            <div class="notes-pictures">
+            <div class="notes-pictures" onclick="newNotePicture(this)">
                 <div>+</div>
                 <div>+</div>
                 <div>+</div>
                 <div>+</div>
+                <input type="file" id="cat-picture" onchange="newNotePictureHandler(this)"  accept="image/png, image/jpeg" hidden>
             </div>
             <p>
                 Pavadinimas:</br>
-                <input></br>
+                <input id="note-name"></br>
                 Užrašas:</br>
-                <textarea rows="10" cols="30"></textarea></br>
-                <button>Pridėti</button>
+                <textarea rows="10" cols="30" id="create-note"></textarea></br>
+                <button onclick="createNote('{{category.id}}')">Pridėti</button>
             </p>
         </div>
+        <script src="{{ url_for('static', filename='category.js')}}"></script> 
     {% for x in category.notes %}
         <div class="categories">
             <h1>{{x.name}}</h1>
-            <div class="notes-pictures">
+            <div class="notes-pictures" onclick="newNotePicture(this)">
                 {% if x.pictures %}
                     {% for y in x.pictures %}
-                        <div><img style="height:100%;width:100%" src="{{ url_for('views.get_image', filename=y.name) }}"></div>
+                        <div onclick="document.getElementById('{{ y.id }}').showModal()"><img style="height:100%;width:100%" src="{{ url_for('views.get_image', filename=y.name) }}"></div>
+                        <dialog class="picture" id="{{ y.id }}">
+                            <img src="{{ url_for('views.get_image', filename=y.name) }}">
+                            <div class="control">
+                                <div style="border-right: solid rgba(0, 0, 0, 0.356) 0.1px" onclick="document.getElementById('d{{y.id}}').click()"><a href="{{ url_for('views.get_image', filename=y.name) }}" id="d{{y.id}}" download hidden></a>Atsisiųsti nuotrauką</div>
+                                <div onclick="document.getElementById('{{ y.id }}').close()">Išjungti</div>
+                            </div>                            
+                        </dialog>
                     {% endfor %}
                 {% if x.pictures |length < 4 %}
                     {% for x in range(0,4-x.pictures |length) %}
@@ -41,9 +49,39 @@
                 <div>+</div>
                 <div>+</div>
                 {% endif %}
+                <input type="file" id="cat-picture" onchange="newNotePictureHandler(this, 1, parseInt('{{x.id}}'))"  accept="image/png, image/jpeg" hidden>
             </div>
             <p>{{x.note}}</p>
         </div>
     {% endfor %}
+    <script>
+        console.log('hello')
+        function openDialog(dialog){
+            document.getElementsByClassName('picture')[parseInt(dialog)-1].showModal()
+        }
+    </script>
     </div>
+    {% else %}
+    <h1>Sukurkite naują kategoriją</h1>
+    <div class="cat-wrapper">
+        <div class="categories">
+            <h1>Pridėti užrašą</h1>
+            <div class="notes-pictures">
+                <div>+</div>
+                <div>+</div>
+                <div>+</div>
+                <div>+</div>
+            </div>
+            <p>
+                Pavadinimas:</br>
+                <input></br>
+                Užrašas:</br>
+                <textarea rows="10" cols="30"></textarea></br>
+                <button onclick="createNote()">Pridėti</button>
+            </p>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='category.js')}}"></script> 
+    {% endif %}
+    <script src="{{ url_for('static', filename='pictureHandler.js') }}"></script>
 {% endblock %}

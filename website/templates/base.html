@@ -29,7 +29,11 @@
             <div class="nav-list"><a href="#">Prisijungti</a></div>
             <div class="nav-list"><a href="#">Registruotis</a></div>
             {% else %}
+            {% if user.username == 'guest' %}
+            <div class="nav-list"><a href='/guest'>Pagrindinis</a></div>
+            {% else %}
             <div class="nav-list"><a href='/'>Pagrindinis</a></div>
+            {% endif %}
             <div class="nav-list"><a href="/logout">Atsijungti</a></div>
             {% endif %}
         </div>
@@ -38,7 +42,7 @@
         <div id="admin-nav">
             <h3>Užrašų kategorijos</h3>
             <ul style="overflow:auto;margin-bottom:auto">
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and user.username != 'guest' %}
                     {% if user.categories %}
                         {% for x in user.categories %}
                             <a href="/categories?cat={{ x.id }}"><li>{{ x.name }}</li></a>
@@ -46,12 +50,14 @@
                     {% else %}
                         <a href="/category"><li>Sukurkite savo pirmą kategoriją</li></a>
                     {% endif %}
+                {% elif user.username == 'guest' %}
+                    <a href="#"><li>Kad galėtumėte naudotis kategorijomis - prisijunkite</li></a>
                 {% else %}
                 <a href="#"><li>Čia matysite savo užrašus</li></a>
                 {% endif %}
             </ul>
             <div id="admin-options">
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and user.username != 'guest' %}
                 <a href="/category"><div class="option">Kurti kategoriją/užrašą</div></a>
                 <a href="/"><div class="option">Peržiūrėti užrašus</div></a>
                 {% endif %}

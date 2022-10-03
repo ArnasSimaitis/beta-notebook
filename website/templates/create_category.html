@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% if user.username != 'guest' %}
 {% if user.notes %}
 <div class="login reg">
 {% else %}
@@ -126,4 +127,5 @@ document.getElementById('cat-picture').addEventListener('change', function(){
     //alert(document.getElementById('cat-picture').files[0].size)
 })
 </script>
+{% endif %}
 {% endblock %}

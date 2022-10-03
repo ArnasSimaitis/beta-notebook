@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+{% if note|int == 10 %}
+<h1>Jūsų temos</h1></br>
+<i>Visi duomenys saugomi Jūsų kompiuteryje, tad ištrynus naršymo istoriją - jie dings.</br>
+    Svečio vartotojas gali pridėti daugiausiai 10 įrašų. Jei norite pridėti daugiau - prisijunkite.
+</i>
+<div class="cat-wrapper">
+    <div class="categories">
+        <h1>Pridėti užrašą</h1>
+        <div class="notes-pictures" onclick="newNotePicture(this)">
+            <div onclick="location.replace('/logout')">Kad galėtumėte pridėti nutoraukas - prisijunkite</div>
+        </div>
+        <p>
+            Pavadinimas:</br>
+            <input id="note-name"></br>
+            Užrašas:</br>
+            <textarea rows="10" cols="30" id="create-note"></textarea></br>
+            <button onclick="createNote()">Pridėti</button>
+        </p>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='guest.js') }}"></script>
+<script>displayNotes()</script>
+{% elif note|int >= 0 and note|int < 10 %}
+<div class="note-wrapper">
+    <h1 id="name"></h1>
+    <div class="note-info">
+        Kategorija: 
+        <select disabled>
+            <option>Svečio režime kategorijos nepasiekiamos.</option>
+        </select>
+    </div>
+    <div class="notes-pictures" style="height:20vh;width:100%">
+        <div style="height:100%;width:100%" onclick="location.replace('/logout')">Kad galėtumėte pridėti nutoraukas - prisijunkite</div>
+    </div>
+    <p onclick="invertNoteColors(this)" id="note"></p>
+    <div class="settings">
+        <div id="edit" onclick="editMode(parseInt('{{note}}'))" style="border-right:1px solid rgba(0, 0, 0, 0.329)">Redaguoti</div>
+        <div id="delete" onclick="deleteNote(parseInt('{{ note }}'))">Ištrinti</div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='guest.js') }}"></script>
+<script>noteInfo(parseInt('{{note}}'))</script>
+{% endif %}
+{% endblock %}

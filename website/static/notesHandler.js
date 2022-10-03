@@ -3,7 +3,7 @@ function changeCategory(element, note){
 }
 
 function deleteNote(element, note){
-    console.log('bye')
+    sendData('deleteNote', {'note':parseInt(note)})
 }
 
 function changeNote(element, note){

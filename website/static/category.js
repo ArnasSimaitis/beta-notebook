@@ -43,11 +43,8 @@ function createCategory(noNotes){
 }
 
 function sendData(reqType, data, newNote = ''){
-    console.log(reqType,data)
     var xml = new XMLHttpRequest()
     var formData = new FormData()
-
-    console.log(data)
 
     xml.open("POST", "/category", true)
 
@@ -87,12 +84,24 @@ function sendData(reqType, data, newNote = ''){
         formData.append('note',data.note)
         xml.send(formData)
     }
+    else if(reqType == 'changeCategory'){
+        formData.append('request',reqType)
+        formData.append('new-cat', data.newCat)
+        formData.append('note', data.note)
+        xml.send(formData)
+    }
+    else if(reqType == 'updateNote'){
+        formData.append('request',reqType)
+        formData.append('note', data.note)
+        formData.append('text', data.text)
+        formData.append('name', data.name)
+        xml.send(formData)
+    }
 
     xml.onload = function(){
         response = JSON.parse(this.responseText)
-        console.log(response)
         if (response['response'] != 1) return alert(response['response'])
-        else if(reqType == 'uploadPicture') return
+        else if(reqType == 'uploadPicture' || reqType == 'changeCategory') return
         else {
             if(reqType=='createCategory' && newNote != ''){
                 document.getElementsByClassName('login')[1].style.border = '0.3rem solid green'

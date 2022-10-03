@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="note-wrapper">
+    <h1>{{ note.name }}</h1>
+    <div class="note-info">
+        Kategorija: 
+        <select onchange="changeCategory(this, '{{note.id}}')">
+            <option value="{{ category.id }}">{{ category.name }}</option>
+            {% for x in user.categories %}
+                {% if x.name != category.name %}
+                    <option value="{{ x.id }}">{{ x.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="notes-pictures" style="height:20vh;overflow-x:auto" onclick="newNotePicture(this)">
+        {% for y in note.pictures %}
+            <div style="width:calc(100%/7)" onclick="document.getElementById('{{ y.id }}').showModal()"><img style="max-width:100%;max-height:100%" src="{{ url_for('views.get_image', filename=y.name) }}"></div>
+            <dialog class="picture" id="{{ y.id }}">
+                <img src="{{ url_for('views.get_image', filename=y.name) }}">
+                <div class="control">
+                    <div style="border-right: solid rgba(0, 0, 0, 0.356) 0.1px" onclick="document.getElementById('d{{y.id}}').click()"><a href="{{ url_for('views.get_image', filename=y.name) }}" id="d{{y.id}}" download hidden></a>Atsisiųsti nuotrauką</div>
+                    <div onclick="document.getElementById('{{ y.id }}').close()">Išjungti</div>
+                </div>                            
+            </dialog>
+        {% endfor %}
+        {% if note.pictures |length < 7 %}
+            {% for x in range(0,7-note.pictures |length) %}
+                <div style="width:calc(100%/7)">+</div>
+            {% endfor %}
+        {% endif %}
+        <input type="file" id="cat-picture" onchange="newNotePictureHandler(this, 1, parseInt('{{note.id}}'))"  accept="image/png, image/jpeg" hidden>
+    </div>
+    <p onclick="invertNoteColors(this)">&nbsp;&nbsp;&nbsp;&nbsp;{{ note.note }}</p>
+    <dialog id="note">&nbsp;&nbsp;&nbsp;&nbsp;{{ note.note }}</dialog>
+    <div class="settings">
+        <div onclick="changeNote(this, '{{note.id}}')" style="border-right:1px solid rgba(0, 0, 0, 0.329)">Redaguoti</div>
+        <div onclick="deleteNote(this, '{{note.id}}')">Ištrinti</div>
+    </div>
+    <script src="{{ url_for('static', filename='category.js')}}"></script> 
+    <script src="{{ url_for('static', filename='pictureHandler.js') }}"></script>
+    <script src="{{ url_for('static', filename='notesHandler.js') }}"></script>
+</div>
+{% endblock %}

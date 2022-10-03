@@ -63,7 +63,7 @@
             <div class="cat-wrapper">
                 {% for x in user.notes %}
                 <div class="categories">
-                    <h1>{{x.name}}</h1>
+                    <h1 onclick="location.replace('/note?note={{x.id}}')">{{x.name}}</h1>
                     <div class="notes-pictures">
                         {% if x.pictures %}
                             {% for y in x.pictures %}

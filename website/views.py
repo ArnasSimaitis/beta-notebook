@@ -57,6 +57,14 @@ def category():
             
             return jsonify({'response':1})
 
+        if req == 'changeCategory':
+            changing_note = request.values['note']
+            changing_category = request.values['new-cat']
+            note = Notes.query.filter_by(id=changing_note).first()
+            note.category = changing_category
+            db.session.commit()
+            return jsonify({'response':1})
+
         if req == 'createCategory':
             print(request.values)
             name = request.values['name']
@@ -92,6 +100,20 @@ def category():
                 return jsonify({'response':1})
             return jsonify({'response':'Nerastas failas.'})
 
+        if req == 'updateNote':
+            changing_note = request.values['note']
+            text = request.values['text']
+            name = request.values['name']
+
+            note = Notes.query.filter_by(id=changing_note).first()
+
+            note.name = name
+            note.note = text
+            db.session.commit()
+
+            return jsonify({'response':1})
+
+
     return render_template("create_category.html", user=current_user)
 
 @views.route('/categories', methods=['GET', 'POST'])
@@ -106,6 +128,18 @@ def categories():
                 return redirect(url_for('views.category'))
         else:
             return redirect(url_for('views.category'))
+
+@views.route('/note', methods=['GET', 'POST'])
+@login_required
+def notes():
+    if request.method == 'GET':
+        if 'note' in request.values:
+            note = Notes.query.filter_by(id=request.values['note']).first()
+            category = Category.query.filter_by(id=note.category).first()
+            if note.user == current_user.id:
+                return render_template("notes.html", user=current_user, note=note, category=category)
+    
+    return redirect(url_for('views.home'))
 
 @views.route('/images/<path:filename>')
 @login_required

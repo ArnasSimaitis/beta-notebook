@@ -23,7 +23,7 @@
         <script src="{{ url_for('static', filename='category.js')}}"></script> 
     {% for x in category.notes %}
         <div class="categories">
-            <h1>{{x.name}}</h1>
+            <h1 onclick="location.replace('/note?note={{x.id}}')">{{x.name}}</h1>
             <div class="notes-pictures" onclick="newNotePicture(this)">
                 {% if x.pictures %}
                     {% for y in x.pictures %}

@@ -138,7 +138,7 @@ label{
 #main{
     display:flex;
     justify-content:center;
-    min-height:100vh;
+    min-height:90vh;
     width:100vw;
     margin-left:5px;
     margin-top:10px;
@@ -335,6 +335,13 @@ div > #create-note{
 }
 
 /* Kategorijos */
+.cat-wrapper{
+    min-height:90%;
+    min-width:99%;
+    display:grid;
+    grid-template-columns:auto auto auto auto;
+    justify-items:center;
+}
 
 .categories{
     background:white;
@@ -352,6 +359,12 @@ div > #create-note{
     height:2.5rem;
     font-size:2rem;
     margin:0;
+    user-select:none;
+    transition:0.1s;
+}
+
+.categories > h1:hover{
+    background:rgba(0, 64, 255, 0.3);
 }
 
 .categories > p{
@@ -395,14 +408,6 @@ div > #create-note{
 
 .categories:hover{
     box-shadow: rgba(0,0,0,0.5) 0px 0px 5px;
-}
-
-.cat-wrapper{
-    min-height:90%;
-    min-width:99%;
-    display:grid;
-    grid-template-columns:auto auto auto auto;
-    justify-items:center;
 }
 
 .add-note{
@@ -459,3 +464,65 @@ div > #create-note{
     dialog.picture > .control > div > a:focus{
         border:none;
     }
+
+/* užrašai */
+.note-wrapper{
+    min-width:100%;
+    min-height:100%;
+    display:flex;
+    flex-direction:column;
+}
+
+.note-wrapper > h1{
+    background:rgba(0, 64, 255, 0.2);
+    margin:0;
+    padding:0;
+}
+
+.note-wrapper > p{
+    text-align:left;
+    margin:1rem;
+    padding:1rem;
+    background:white;
+    border-radius:5px;
+    box-shadow: rgba(0,0,0,0.5) 0px 0px 2px;
+    transition: 0.1s;
+    color:black;
+    width:85%;
+    align-self:center;
+}
+
+.note-wrapper > p:hover{
+    box-shadow: rgba(0,0,0,1) 0px 0px 5px;
+}
+
+.note-info{
+    background:rgba(0, 64, 255, 0.2);
+    padding:0.2rem;
+}
+
+.note-info > select{
+    border:none;
+    background:none;
+}
+
+.settings{
+    margin-top:auto;
+    justify-self:flex-end;
+    display:flex;
+}
+
+.settings > div{
+    width:50%;
+    background:rgba(0, 64, 255, 0.2);
+    height:2rem;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition:0.1s;
+    user-select:none;
+}
+
+.settings > div:hover{
+    background:rgba(0, 64, 255, 0.3);
+}

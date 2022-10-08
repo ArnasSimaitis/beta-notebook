@@ -107,6 +107,7 @@ label{
     overflow:hidden;
     height:100%;
     margin-left:5px;
+    user-select:none;
 }
 
 #appname > h1{

@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="header">
-        <div id="appname"><h1>BETA</h1><p>Jūsų užrašai</p></div>
+        <div id="appname" onclick="location.replace('/')"><h1>BETA</h1><p>Jūsų užrašai</p></div>
         <div id="middle">
             {% if user.is_authenticated %}
                 {% if user.username == 'guest' %}
@@ -119,11 +119,11 @@
                                 </dialog>
                             {% endfor %}
                         {% if x.pictures |length < 4 %}
-                            {% for x in range(0,4-x.pictures |length) %}
-                            <div>+</div>
+                            {% for a in range(0,4-x.pictures |length) %}
+                            <div onclick="location.replace('/note?note={{ x.id }}')">+</div>
                             {% endfor %}
                         {% else %}
-                            <div>+</div>
+                            <div onclick="location.replace('/note?note={{ x.id }}')">+</div>
                         {% endif %}
                         {% else %}
                         <div>+</div>

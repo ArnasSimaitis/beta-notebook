@@ -45,6 +45,13 @@ def login():
                 return jsonify({'response':'Per ilgas slaptažodis. Daugiausiai 150 simbolių.'})
             if len(req['username']) > 150:
                 return jsonify({'response':'Per ilgas vartotojo vardas. Daugiausiai 150 simbolių.'})
+            if req['username'].isascii() == False or req['username'].isalpha() == False:
+                return jsonify({'response':'Vartotojo varde yra neleistinų simbolių.'})
+            if not '@' in req['email'] or ' ' in req['email'] or not '.' in req['email']:
+                return jsonify({'response':'Neteisingas el. pašto formatas.'})
+            
+            print(req['username'].isalpha())
+                
 
             # Registruojam
             user = User(email=req['email'],

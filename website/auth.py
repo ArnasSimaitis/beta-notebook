@@ -49,8 +49,6 @@ def login():
                 return jsonify({'response':'Vartotojo varde yra neleistinų simbolių.'})
             if not '@' in req['email'] or ' ' in req['email'] or not '.' in req['email']:
                 return jsonify({'response':'Neteisingas el. pašto formatas.'})
-            
-            print(req['username'].isalpha())
                 
 
             # Registruojam
